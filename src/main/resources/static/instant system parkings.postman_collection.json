@@ -1,0 +1,515 @@
+{
+  "info": {
+    "_postman_id": "c00a7f9e-5e65-44db-bf20-375e8f7334f1",
+    "name": "instant system parkings",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "606019"
+  },
+  "item": [
+    {
+      "name": "swagger springdoc-openapi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/v3/api-docs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "v3",
+            "api-docs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "hello",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"hello - status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"hello - body confirms service is running\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"service is running\");",
+              "});",
+              "",
+              "pm.test(\"hello - response time < 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/hello",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "hello"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "sign up",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"sign up - status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"sign up - response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "pm.test(\"sign up - body contains email\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"email\");",
+              "    pm.expect(json.email).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"sign up - body contains name and lastName\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"name\");",
+              "    pm.expect(json).to.have.property(\"lastName\");",
+              "});",
+              "",
+              "pm.test(\"sign up - body contains creationDate\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"creationDate\");",
+              "});",
+              "",
+              "pm.test(\"sign up - response time < 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"amine.hallili@gmail.com\",\r\n    \"name\": \"amine\",\r\n    \"lastName\" : \"hallili\",\r\n    \"pwd\" : \"123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/auth/signup",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "auth",
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "pm.collectionVariables.set(\"token\", jsonData.token);",
+              "",
+              "pm.test(\"login - status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"login - response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "pm.test(\"login - body contains token\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"token\");",
+              "    pm.expect(json.token).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"login - body contains expiresInMs\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"expiresInMs\");",
+              "    pm.expect(json.expiresInMs).to.be.a(\"number\").and.above(0);",
+              "});",
+              "",
+              "pm.test(\"login - body contains role\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"role\");",
+              "    pm.expect(json.role).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"login - response time < 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\":\"amine.hallili@gmail.com\",\r\n    \"pwd\":\"123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/auth/login",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "available cities",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"available cities - status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"available cities - response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "pm.test(\"available cities - body is an array\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.be.an(\"array\");",
+              "});",
+              "",
+              "pm.test(\"available cities - array is not empty\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.length).to.be.above(0);",
+              "});",
+              "",
+              "pm.test(\"available cities - each item is a non-empty string\", function () {",
+              "    var json = pm.response.json();",
+              "    json.forEach(function(city) {",
+              "        pm.expect(city).to.be.a(\"string\").and.not.empty;",
+              "    });",
+              "});",
+              "",
+              "pm.test(\"available cities - response time < 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/available-cities",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "available-cities"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "parkings of a city (Poitiers)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"parkings of a city (Poitiers) - status 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"parkings of a city (Poitiers) - response is JSON\", function () {\n    pm.response.to.be.json;\n});\n\npm.test(\"parkings of a city (Poitiers) - body is an array\", function () {\n    var json = pm.response.json();\n    pm.expect(json).to.be.an(\"array\");\n});\n\npm.test(\"parkings of a city (Poitiers) - array is not empty\", function () {\n    var json = pm.response.json();\n    pm.expect(json.length).to.be.above(0);\n});\n\npm.test(\"parkings of a city (Poitiers) - each item has required fields\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking).to.have.property(\"id\");\n        pm.expect(parking).to.have.property(\"name\");\n        pm.expect(parking).to.have.property(\"address\");\n        pm.expect(parking).to.have.property(\"capacity\");\n        pm.expect(parking).to.have.property(\"city\");\n        pm.expect(parking).to.have.property(\"country\");\n    });\n});\n\npm.test(\"parkings of a city (Poitiers) - city is Poitiers\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking.city).to.equal(\"Poitiers\");\n    });\n});\n\npm.test(\"parkings of a city (Poitiers) - capacity is a positive number\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking.capacity).to.be.a(\"number\").and.above(0);\n    });\n});\n\npm.test(\"parkings of a city (Poitiers) - response time < 2000ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(2000);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/poitiers/parkings",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "poitiers",
+            "parkings"
+          ]
+        },
+        "description": "Generated from cURL: curl --location '{{url}}/poitiers/parkings' --header 'Authorization: Bearer {{token}}'"
+      },
+      "response": []
+    },
+    {
+      "name": "parkings of a city (NANTES)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"parkings of a city (Nantes) - status 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"parkings of a city (Nantes) - response is JSON\", function () {\n    pm.response.to.be.json;\n});\n\npm.test(\"parkings of a city (Nantes) - body is an array\", function () {\n    var json = pm.response.json();\n    pm.expect(json).to.be.an(\"array\");\n});\n\npm.test(\"parkings of a city (Nantes) - array is not empty\", function () {\n    var json = pm.response.json();\n    pm.expect(json.length).to.be.above(0);\n});\n\npm.test(\"parkings of a city (Nantes) - each item has required fields\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking).to.have.property(\"id\");\n        pm.expect(parking).to.have.property(\"name\");\n        pm.expect(parking).to.have.property(\"address\");\n        pm.expect(parking).to.have.property(\"capacity\");\n        pm.expect(parking).to.have.property(\"city\");\n        pm.expect(parking).to.have.property(\"country\");\n    });\n});\n\npm.test(\"parkings of a city (Nantes) - city is Nantes\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking.city).to.equal(\"Nantes\");\n    });\n});\n\npm.test(\"parkings of a city (Nantes) - capacity is a positive number\", function () {\n    var json = pm.response.json();\n    json.forEach(function(parking) {\n        pm.expect(parking.capacity).to.be.a(\"number\").and.above(0);\n    });\n});\n\npm.test(\"parkings of a city (Nantes) - response time < 2000ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(2000);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/nantes/parkings",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "nantes",
+            "parkings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get nearby parkings",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"parkings of a city - status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"parkings of a city - response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"parkings of a city - body is an array\", function () {\r\n    var json = pm.response.json();\r\n    pm.expect(json).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"parkings of a city - array is not empty\", function () {\r\n    var json = pm.response.json();\r\n    pm.expect(json.length).to.be.above(0);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/poitiers/find_nearby_parkings?geoPoint=46.58383455409422,0.33779491061805567&radiusMeters=1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "poitiers",
+            "find_nearby_parkings"
+          ],
+          "query": [
+            {
+              "key": "geoPoint",
+              "value": "46.58383455409422,0.33779491061805567"
+            },
+            {
+              "key": "radiusMeters",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "parking details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"parking details - status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"parking details - response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "pm.test(\"parking details - body contains id\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"id\");",
+              "});",
+              "",
+              "pm.test(\"parking details - body contains name\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"name\");",
+              "    pm.expect(json.name).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"parking details - body contains address\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"address\");",
+              "});",
+              "",
+              "pm.test(\"parking details - body contains capacity\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"capacity\");",
+              "    pm.expect(json.capacity).to.be.a(\"number\").and.above(0);",
+              "});",
+              "",
+              "pm.test(\"parking details - body contains city and country\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"city\");",
+              "    pm.expect(json).to.have.property(\"country\");",
+              "});",
+              "",
+              "pm.test(\"parking details - response time < 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/poitiers/3",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "poitiers",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/user/users",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "user",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "secret": true
+    }
+  ]
+}
